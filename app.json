@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "sdkVersion": "21.0.0",
+    "loading":{
+      "icon":"./common/images/logo_owe@2x.png"
+    }
+  }
+}

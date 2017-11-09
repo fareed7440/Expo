@@ -1,0 +1,41 @@
+{
+  //TITLE
+  "title_login_mail":"Login Mail",
+  "title_contacts":"Contacts",
+  "title_login_menu":"Login Menu",
+  "title_register":"Register",
+  "title_add_contact":"Add Contact",
+  "title_new_group":"Create Group",
+  "title_debts":"Debts",
+
+  //BUTTON
+  "btn_add":"Añadir",
+  "btn_new_contact":"NEW CONTACT",
+  "btn_new_group":"NEW GROUP",
+  "btn_new":"NEW",
+  "btn_enter":"ENTER",
+  "btn_next":"NEXT",
+  "btn_create":"CREATE",
+
+  //TEXT
+  "text_email":"Email",
+  "text_password":"Password",
+  "text_go_contact":"Go To Contacts",
+  "text_go_second_screen":"Go to Second Screen",
+  "text_credentials_incorrect":"Bad Credentials",
+  "text_write_message":"Write a message",
+  "text_register":"REGISTER",
+  "text_name":"Name",
+  "text_surname":"Surname",
+  "text_loading":"Loading",
+  "text_search":"Search",
+  "text_holder_add_contact":"Enter email or Phone Number...",
+  "text_error_check_user":"There is no user with this value",
+  "text_error":"An error has occurred",
+  "text_error_add_contact":"Error adding contact",
+  "text_result":"Result",
+
+  //ERROR
+  "error_contacts_selected":"You have to select a contact",
+  "error_add_group":"Error adding group"
+}

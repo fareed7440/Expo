@@ -1,0 +1,38 @@
+{
+  //TITLE
+  "title_contacts":"Contactos",
+  "title_register":"Registrarme",
+  "title_add_contact":"Añadir Contacto",
+  "title_new_group":"Crear Grupo",
+  "title_debts":"Debts",
+
+  //BUTTON
+  "btn_enter":"ENTRAR",
+  "btn_new":"NUEVO",
+  "btn_add":"AÑADIR",
+  "btn_new_contact":"NUEVO CONTACTO",
+  "btn_new_group":"NUEVO GRUPO",
+  "btn_next":"SIGUIENTE",
+  "btn_create":"CREAR",
+
+  //TEXT
+  "text_password":"Contraseña",
+  "text_go_contact":"Ir a tus contactos",
+  "text_go_second_screen":"Ir a la segunda pantalla",
+  "text_credentials_incorrect":"Credenciales incorrectas",
+  "text_write_message":"Escribir mensaje",
+  "text_register":"REGISTRARME",
+  "text_name":"Nombre",
+  "text_surname":"Apellidos",
+  "text_loading":"Cargando",
+  "text_search":"Buscar",
+  "text_holder_add_contact":"Introduce Email o número de telefono...",
+  "text_error_check_user":"No existe ningún usuario con ese valor",
+  "text_error":"Se ha producido un error",
+  "text_error_add_contact":"Se ha producido un error al añadir el contacto",
+  "text_result":"Resultado",
+
+  //ERROR
+  "error_contacts_selected":"Tienes que seleccionar un contacto",
+  "error_add_group":"Se ha producido un error al añadir el grupo"
+}
