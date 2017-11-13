@@ -4,6 +4,31 @@ import FieldFilter from './models/FieldFilter';
 class Api {
 
   static serverPath = "http://owe-desarrollo.us-east-1.elasticbeanstalk.com/api/";
+  static async addUserDebts(debtContacts){
+    console.log('debtcontact Api',debtContacts)
+     relativePath = "UserDebts";
+  try{
+    let response = await fetch(this.serverPath+relativePath,{
+      method : 'PUT',
+      headers : {
+        	'Accept': 'application/json',
+  				'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          type: 'UserDebts', 
+          models : debtContacts
+        })
+    })
+      
+    console.log('respone', response.json());
+    return  response.json()
+     
+  }catch(error) {
+      console.error(error);
+    }
+}
+
+  
 static async addDebts(con){
   console.log('Api request data',con)
   // var rv = {};

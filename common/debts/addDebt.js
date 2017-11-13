@@ -10,8 +10,7 @@ import Autocomplete from 'react-native-autocomplete-input';
 import Api from './../api/Api';
 import { NavigationActions } from 'react-navigation';
 import DatePicker from 'react-native-datepicker'
-import MultiSelect from 'react-native-multiple-select';
-import SelectMultiple from 'react-native-select-multiple'
+import { Confirm } from './confirm'
 
 const fruits = ['Apples', 'Oranges', 'Pears']
 class AddDebt extends Component {
@@ -34,7 +33,9 @@ class AddDebt extends Component {
       modalVisible: false,
       checked: false,
       checkedContact: [],
-      DebtContact: []
+      DebtContact: [],
+      selectContact: [],
+      showModal: false
 
     }
     this.onSaveButton = this.onSaveButton.bind(this);
@@ -60,7 +61,27 @@ class AddDebt extends Component {
     this.setState({ modalVisible: visible });
   }
 
+  onAccept = () => {
 
+     var con = this.state.DebtContact;
+
+      console.log('connnn', con)
+      Api.addDebts(con).then((res) => {
+        AsyncStorage.setItem('Debts', JSON.stringify(res));
+
+      }).catch((err) => {
+        alert(err)
+      })
+      this.AddUserDebts()
+      this.setState({showModal:false, Name: '', concept: '', initDate: '', expDate: '', totalValue: ''})
+
+  }
+
+  onReject = () => {
+    this.setState({
+      showModal: false
+    })
+  }
 
   onSaveButton() {
     if (!this.state.Name || !this.state.concept || !this.state.initDate || !this.state.expDate || !this.state.totalValue) {
@@ -69,32 +90,36 @@ class AddDebt extends Component {
       )
     } else {
       var obj = {
-        name: this.state.name,
+        name: this.state.Name,
         concept: this.state.concept,
         initDate: this.state.initDate,
         expDate: this.state.expDate,
         totalValue: this.state.totalValue,
         contact: this.state.contact,
-      
+
       }
       console.log(obj)
-      var con = this.state.DebtContact;
-      
-     console.log('connnn', con)
-      Api.addDebts(con).then((res) => {
-        AsyncStorage.setItem('Debts', JSON.stringify(res));
-        this.props.navigation.dispatch(resetMenuAction)
-
-      }).catch((err) => {
-        alert(err)
-      })
-
+     
       this.setState({
-        Name: '', concept: '', initDate: '', expDate: '', totalValue: ''
+        showModal:true,
+       
       })
 
     }
   }
+  AddUserDebts = () => {
+    let debtContacts = this.state.selectContact;
+    console.log('func contact', debtContacts);
+    Api.addUserDebts(debtContacts).then((res) => {
+      AsyncStorage.setItem('AddUsersDebts', JSON.stringify(res));
+      this.props.navigation.dispatch(resetMenuAction)
+
+    }).catch((err) => {
+      alert(err)
+    })
+
+  }
+
   render() {
     const { selectedItems } = this.state
     return (
@@ -149,25 +174,30 @@ class AddDebt extends Component {
                 <TouchableHighlight style={styles.loginBtnWrap} onPress={() => {
                   for (var j = 0; j < this.state.checkedContact.length; j++) {
                     this.state.AllContacts.splice(this.state.AllContacts.indexOf(this.state.checkedContact[j]), 1)
-                      
+                    console.log('selected con', this.state.checkedContact[j])
+                    this.state.selectContact.push(this.state.checkedContact[j])
                     this.state.checkedContact[j].value = this.state.totalValue / this.state.checkedContact.length
                     this.state.checkedContact[j].init_date = this.state.initDate
                     this.state.checkedContact[j].expiration_date = this.state.expDate
-                    this.state.checkedContact[j].name = this.state.Name
+                    this.state.checkedContact[j].Name = this.state.Name
                     this.state.checkedContact[j].concept = this.state.concept
-                    console.log('hahah',this.state.checkedContact[j])
-                   var  con = {concept: this.state.checkedContact[j].concept,name :this.state.Name,init_date :this.state.checkedContact[j].init_date,
-         expiration_date : this.state.checkedContact[j].expiration_date,value :this.state.checkedContact[j].value  , users:{ name: this.state.checkedContact[j].name,created_at : this.state.checkedContact[j].created_at,
-        email :this.state.checkedContact[j].email,id : this.state.checkedContact[j].id, name :this.state.checkedContact[j].name,exponent_token :this.state.checkedContact[j].exponent_token , num_document:this.state.checkedContact[j].num_document,
-      password  :this.state.checkedContact[j].password ,  surnames : this.state.checkedContact[j].surnames,telephone : this.state.checkedContact[j].telephone ,updated_at : this.state.checkedContact[j].updated_at   }}      
-      console.log('16333', con)
+
+                    var con = {
+                      concept: this.state.checkedContact[j].concept, Name: this.state.Name, init_date: this.state.checkedContact[j].init_date,
+                      expiration_date: this.state.checkedContact[j].expiration_date, value: this.state.checkedContact[j].value, users: {
+                        name: this.state.checkedContact[j].name, created_at: this.state.checkedContact[j].created_at,
+                        email: this.state.checkedContact[j].email, id: this.state.checkedContact[j].id, name: this.state.checkedContact[j].name, exponent_token: this.state.checkedContact[j].exponent_token, num_document: this.state.checkedContact[j].num_document,
+                        password: this.state.checkedContact[j].password, surnames: this.state.checkedContact[j].surnames, telephone: this.state.checkedContact[j].telephone, updated_at: this.state.checkedContact[j].updated_at
+                      }
+                    }
+                    console.log('16333', con)
                     this.state.DebtContact.push(con)
-                //    console.log(this.state.DebtContact)
+                    //    console.log(this.state.DebtContact)
                   }
-                //  obj.users=this.state.DebtContact
-                //  console.log(obj,'hey')
-                  console.log('debtcontact',this.state.DebtContact)
-                   {/* var con = {concept: this.state.concept,name :this.state.name,init_date :this.state.DebtContact.init_date,
+                  //  obj.users=this.state.DebtContact
+                  //  console.log(obj,'hey')
+                  console.log('debtcontact', this.state.DebtContact)
+                  {/* var con = {concept: this.state.concept,name :this.state.name,init_date :this.state.DebtContact.init_date,
          expiration_date : this.state.DebtContact.expiration_date,value :this.state.DebtContact.value  , users:{ name: this.state.checkedContact.name,created_at : this.state.DebtContact.created_at,
         email :this.state.DebtContact.email,id : this.state.DebtContact.id, name :this.state.checkedContact.name,exponent_token :this.state.checkedContact.exponent_token , num_document: this.state.DebtContact.num_document,
       password  :this.state.DebtContact.password ,  surnames : this.state.DebtContact.surnames,telephone : this.state.DebtContact.telephone ,updated_at : this.state.DebtContact.updated_at   }}      
@@ -183,7 +213,7 @@ class AddDebt extends Component {
           <Text style={styles.label}>name</Text>
           <TextInput style={styles.input}
             placeholder='name'
-            value={this.state.name}
+            value={this.state.Name}
             onChangeText={(value) => this.setState({ Name: value })}
 
           />
@@ -219,6 +249,7 @@ class AddDebt extends Component {
             }}
             onDateChange={(value) => { this.setState({ initDate: value }) }}
           />
+        
 
           <Text style={styles.label}>Expiry Date</Text>
           <DatePicker
@@ -264,6 +295,13 @@ class AddDebt extends Component {
             onPress={this.onSaveButton}>
             <Text style={styles.loginBtnContent}>Enter</Text>
           </TouchableOpacity>
+            <Confirm
+            visible={this.state.showModal}
+            onAccept={this.onAccept}
+            onReject={this.onReject}
+          >
+            <Text>Are You Sure To Add This Debt ? </Text>
+          </Confirm>
         </NB.Content>
       </NB.Container>
     )
